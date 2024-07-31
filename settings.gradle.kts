@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "KakaoImageSearch"
 include(":app")
- 
+include(":common")

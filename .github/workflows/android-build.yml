@@ -47,6 +47,9 @@ jobs:
       with:
         submodules: recursive
         token: ${{ secrets.ACTION_TOKEN }}
+
+    - name: Set Kakao API Key
+      run: echo "KAKAO_API_KEY=${{ secrets.KAKAO_API_KEY }}" >> local.properties
       
     - name: Build with Gradle
       run: ./gradlew build

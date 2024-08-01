@@ -1,4 +1,4 @@
-package com.seosh817.kakaoimagesearch.ui.theme
+package com.seosh817.kakaoimagesearch.core.designsystem.theme
 
 import android.app.Activity
 import android.os.Build

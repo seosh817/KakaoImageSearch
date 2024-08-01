@@ -13,6 +13,9 @@ dependencyResolutionManagement {
     }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "KakaoImageSearch"
 include(":app")
 include(":common")
+include(":core")
+include(":core:designsystem")

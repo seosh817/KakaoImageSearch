@@ -1,12 +1,13 @@
 plugins {
     alias(libs.plugins.kakaoimagesearch.android.library)
     alias(libs.plugins.kakaoimagesearch.android.hilt)
+    alias(libs.plugins.kakaoimagesearch.android.room)
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("kotlinx-serialization")
 }
 
 android {
-    namespace = "com.seosh817.kakaoimagesearch.core.network"
+    namespace = "com.seosh817.kakaoimagesearch.core.data"
 
     testOptions {
         unitTests {
@@ -36,6 +37,7 @@ dependencies {
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.kotlin.serialization)
     implementation(libs.androidx.paging)
+    implementation(libs.kotlinx.coroutines.android)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

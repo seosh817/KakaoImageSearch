@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="textfield_trailing_icon_description">Clear Text</string>
+    <string name="now_loading">로딩 중 입니다. 😀</string>
+    <string name="content_description_check_toggle_button">Checked Toggle Button</string>
+</resources>

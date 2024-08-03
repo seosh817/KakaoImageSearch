@@ -10,9 +10,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface ImageSearchDataSourceModule {
+interface ImageSearchRemoteDataSourceModule {
 
     @Singleton
     @Binds
-    fun bindImageSearchDataSource(imageSearchSourceImpl: ImageSearchRemoteDataSourceImpl): ImageSearchRemoteDataSource
+    fun bindImageSearchDataSource(imageSearchRemoteDataSourceImpl: ImageSearchRemoteDataSourceImpl): ImageSearchRemoteDataSource
 }

@@ -3,7 +3,7 @@ package com.seosh817.kakaoimagesearch.core.data.local.source
 import com.seosh817.kakaoimagesearch.core.data.local.model.BookmarkEntity
 import kotlinx.coroutines.flow.Flow
 
-interface KakaoImageSearchLocalDataSource {
+interface BookmarkLocalDataSource {
 
     fun getAllBookmarks(): Flow<List<BookmarkEntity>>
 

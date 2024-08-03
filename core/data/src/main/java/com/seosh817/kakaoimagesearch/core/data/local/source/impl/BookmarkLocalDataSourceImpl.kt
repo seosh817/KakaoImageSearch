@@ -2,13 +2,13 @@ package com.seosh817.kakaoimagesearch.core.data.local.source.impl
 
 import com.seosh817.kakaoimagesearch.core.data.local.dao.BookmarkDao
 import com.seosh817.kakaoimagesearch.core.data.local.model.BookmarkEntity
-import com.seosh817.kakaoimagesearch.core.data.local.source.KakaoImageSearchLocalDataSource
+import com.seosh817.kakaoimagesearch.core.data.local.source.BookmarkLocalDataSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class KakaoImageSearchLocalDataSourceImpl @Inject constructor(
+class BookmarkLocalDataSourceImpl @Inject constructor(
     private val bookmarkDao: BookmarkDao
-) : KakaoImageSearchLocalDataSource {
+) : BookmarkLocalDataSource {
 
     override fun getAllBookmarks(): Flow<List<BookmarkEntity>> {
         return bookmarkDao.getAllBookmarks()

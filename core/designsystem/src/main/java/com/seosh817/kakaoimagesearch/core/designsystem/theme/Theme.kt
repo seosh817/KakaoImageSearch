@@ -1,6 +1,7 @@
 package com.seosh817.kakaoimagesearch.core.designsystem.theme
 
 import android.app.Activity
+import android.content.res.Configuration
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -13,6 +14,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
 
 val LightColorScheme = lightColorScheme(
@@ -110,3 +112,7 @@ fun KakaoImageSearchTheme(
         content = content
     )
 }
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, name = "Light theme")
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark theme")
+annotation class ThemePreviews

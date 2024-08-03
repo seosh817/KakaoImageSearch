@@ -14,12 +14,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.seosh817.kakaoimagesearch.core.designsystem.R
+import com.seosh817.kakaoimagesearch.core.designsystem.theme.KakaoImageSearchTheme
 import com.seosh817.kakaoimagesearch.core.designsystem.theme.ThemePreviews
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,6 +30,7 @@ fun MainTopAppBar(
     modifier: Modifier = Modifier,
     title: String,
     actions: @Composable RowScope.() -> Unit,
+    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
 ) {
     Surface {
         TopAppBar(
@@ -49,28 +52,33 @@ fun MainTopAppBar(
                 containerColor = Color.Transparent,
                 titleContentColor = KakaoImageSearchAppBarDefaults.titleContentColor(),
                 actionIconContentColor = KakaoImageSearchAppBarDefaults.actionIconContentColor(),
-            )
+            ),
+            scrollBehavior = scrollBehavior
         )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @ThemePreviews
 @Composable
 fun MainTopAppBarPreview() {
-    MainTopAppBar(
-        title = "검색",
-        actions = {
-            IconButton(
-                onClick = {
+    KakaoImageSearchTheme {
+        MainTopAppBar(
+            title = "검색",
+            actions = {
+                IconButton(
+                    onClick = {
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.DarkMode,
+                        contentDescription = "Dark Mode Icon Preview"
+                    )
                 }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.DarkMode,
-                    contentDescription = "Dark Mode Icon Preview"
-                )
-            }
-        }
-    )
+            },
+            scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+        )
+    }
 }
 
 object KakaoImageSearchAppBarDefaults {

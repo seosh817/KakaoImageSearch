@@ -39,6 +39,10 @@ dependencies {
     implementation(projects.feature.bookmarks)
     implementation(projects.feature.search)
 
+    implementation(projects.core.common)
+    implementation(projects.core.domain)
+    implementation(projects.core.designsystem)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 

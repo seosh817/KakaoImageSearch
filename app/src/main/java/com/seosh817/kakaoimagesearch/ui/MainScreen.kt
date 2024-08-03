@@ -109,6 +109,7 @@ fun MainScreen(
                             )
                         }
                     },
+                    scrollBehavior = scrollBehavior,
                 )
             }
 

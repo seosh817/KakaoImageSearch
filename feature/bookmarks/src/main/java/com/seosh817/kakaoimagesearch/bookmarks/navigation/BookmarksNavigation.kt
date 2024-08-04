@@ -19,8 +19,6 @@ fun NavGraphBuilder.bookmarksScreen(
     composable(
         route = bookmarksNavigationRoute,
     ) {
-        BookmarksRoute(
-            onShowSnackbar = onShowSnackbar,
-        )
+        BookmarksRoute()
     }
 }

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.seosh817.kakaoimagesearch.search"
+    namespace = "com.seosh817.kakaoimagesearch.feature.search"
 }
 
 dependencies {

@@ -23,15 +23,4 @@ data class SearchImageDto (
    var thumbnailUrl : String,
    @SerialName("width")
    var width : Int
-) {
-    fun asEntity() = SearchImage(
-        collection = collection,
-        datetime = datetime,
-        displaySitename = displaySitename,
-        docUrl = docUrl,
-        height = height,
-        imageUrl = imageUrl,
-        thumbnailUrl = thumbnailUrl,
-        width = width
-    )
-}
+)

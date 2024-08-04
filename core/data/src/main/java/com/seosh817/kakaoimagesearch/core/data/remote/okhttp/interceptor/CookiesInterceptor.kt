@@ -1,6 +1,6 @@
 package com.seosh817.kakaoimagesearch.core.data.remote.okhttp.interceptor
 
-import com.seosh817.kakaoimagesearch.core.network.BuildConfig
+import com.seosh817.kakaoimagesearch.core.data.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response

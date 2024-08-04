@@ -1,4 +1,4 @@
-package com.seosh817.kakaoimagesearch.domain.usecase
+package com.seosh817.kakaoimagesearch.domain.usecase.search
 
 import androidx.paging.PagingData
 import com.seosh817.kakaoimagesearch.core.common.Dispatcher

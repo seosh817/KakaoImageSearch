@@ -1,6 +1,5 @@
 package com.seosh817.kakaoimagesearch.core.ui.image
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,18 +16,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.seosh817.kakaoimagesearch.domain.entity.SearchImage
+import com.seosh817.kakaoimagesearch.domain.entity.composite.UserImage
 
 @Composable
 fun AspectImage(
     modifier: Modifier = Modifier,
-    searchImage: SearchImage,
-    like: Boolean = false,
+    userImage: UserImage,
     contentDescription: String? = null,
-    onClick: (() -> Unit)? = null
 ) {
-    val aspectRatio = searchImage.width.toFloat() / searchImage.height.toFloat()
-    var currentUrl by remember(searchImage.imageUrl) { mutableStateOf(searchImage.imageUrl) }
+    val aspectRatio = userImage.width.toFloat() / userImage.height.toFloat()
+    var currentUrl by remember(userImage.imageUrl) { mutableStateOf(userImage.imageUrl) }
 
     Card(
         modifier = modifier
@@ -38,11 +35,7 @@ fun AspectImage(
     ) {
         AsyncImage(
             modifier = modifier
-                .aspectRatio(aspectRatio)
-                .clickable(
-                    enabled = onClick != null,
-                    onClick = onClick ?: {}
-                ),
+                .aspectRatio(aspectRatio),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(currentUrl)
                 .crossfade(true)
@@ -50,12 +43,10 @@ fun AspectImage(
             contentDescription = contentDescription,
             contentScale = ContentScale.Crop,
             onError = {
-                if (searchImage.imageUrl != searchImage.thumbnailUrl) {
-                    currentUrl = searchImage.thumbnailUrl
+                if (userImage.imageUrl != userImage.thumbnailUrl) {
+                    currentUrl = userImage.thumbnailUrl
                 }
             }
         )
-
-
     }
 }

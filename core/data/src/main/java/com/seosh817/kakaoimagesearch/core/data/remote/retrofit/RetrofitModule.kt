@@ -1,6 +1,6 @@
 package com.seosh817.kakaoimagesearch.core.data.remote.retrofit
 
-import com.seosh817.kakaoimagesearch.core.network.BuildConfig
+import com.seosh817.kakaoimagesearch.core.data.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

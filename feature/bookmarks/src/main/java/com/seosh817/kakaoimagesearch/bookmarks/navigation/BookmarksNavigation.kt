@@ -1,6 +1,5 @@
 package com.seosh817.kakaoimagesearch.bookmarks.navigation
 
-import androidx.compose.material3.SnackbarDuration
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -13,9 +12,7 @@ fun NavController.navigateToBookmarks(navOptions: NavOptions? = null) {
     navigate(bookmarksNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.bookmarksScreen(
-    onShowSnackbar: suspend (String, String?, SnackbarDuration) -> Boolean,
-) {
+fun NavGraphBuilder.bookmarksScreen() {
     composable(
         route = bookmarksNavigationRoute,
     ) {

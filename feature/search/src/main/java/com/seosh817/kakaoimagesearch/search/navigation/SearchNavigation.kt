@@ -1,6 +1,5 @@
 package com.seosh817.kakaoimagesearch.search.navigation
 
-import androidx.compose.material3.SnackbarDuration
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -13,14 +12,10 @@ fun NavController.navigateToSearch(navOptions: NavOptions? = null) {
     navigate(searchNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.searchScreen(
-    onShowSnackbar: suspend (String, String?, SnackbarDuration) -> Boolean,
-) {
+fun NavGraphBuilder.searchScreen() {
     composable(
         route = searchNavigationRoute,
     ) {
-        SearchRoute(
-            onShowSnackbar = onShowSnackbar,
-        )
+        SearchRoute()
     }
 }

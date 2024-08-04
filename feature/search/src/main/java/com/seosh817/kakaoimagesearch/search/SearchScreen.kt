@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -38,7 +37,6 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 internal fun SearchRoute(
     modifier: Modifier = Modifier,
-    onShowSnackbar: suspend (String, String?, SnackbarDuration) -> Boolean,
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
 
@@ -49,7 +47,6 @@ internal fun SearchRoute(
         modifier = modifier,
         searchPagingItems = searchPagingItems,
         query = query,
-        onShowSnackbar = onShowSnackbar,
         onTextChanged = {
             viewModel.handleSearchUiEvent(SearchUiEvent.OnQueryChanged(it))
         },
@@ -67,7 +64,6 @@ internal fun SearchScreen(
     modifier: Modifier = Modifier,
     searchPagingItems: LazyPagingItems<UserImage>,
     query: String,
-    onShowSnackbar: suspend (String, String?, SnackbarDuration) -> Boolean,
     onTextChanged: (String) -> Unit = {},
     onClearIconClick: () -> Unit = {},
     onClickBookmark: (UserImage, Boolean) -> Unit,
@@ -181,6 +177,5 @@ fun SearchScreenPreview() {
     SearchScreen(
         query = "Hello world!",
         searchPagingItems = flowOf(PagingData.empty<UserImage>()).collectAsLazyPagingItems(),
-        onShowSnackbar = { _, _, _ -> false }
     ) { _, _ -> }
 }

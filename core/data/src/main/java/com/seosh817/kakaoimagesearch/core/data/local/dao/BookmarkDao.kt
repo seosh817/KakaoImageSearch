@@ -1,5 +1,6 @@
 package com.seosh817.kakaoimagesearch.core.data.local.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -22,12 +23,15 @@ interface BookmarkDao {
     @Query(
         value =
         """
-            SELECT * 
+            SELECT *
             FROM bookmark_table
-            WHERE :query LIKE '%' || :query || '%'
+            WHERE CASE
+                WHEN :query IS NULL OR :query = '' THEN 1
+                ELSE :query LIKE `query`
+            END
         """
     )
-    fun getBookmarksByQuery(query: String): Flow<List<BookmarkEntity>>
+    fun getBookmarksByQuery(query: String): PagingSource<Int, BookmarkEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBookmarkImage(bookmarkEntity: BookmarkEntity)

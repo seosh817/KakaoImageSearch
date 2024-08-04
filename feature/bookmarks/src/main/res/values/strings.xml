@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bookmarks_empty">북마크가 비어있어요!</string>
+    <string name="no_search_result">검색 결과가 없어요!</string>
+    <string name="refresh_error">에러가 발생헀습니다.</string>
+</resources>

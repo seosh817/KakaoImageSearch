@@ -4,19 +4,20 @@ plugins {
 }
 
 android {
-    namespace = "com.seosh817.kakaoimagesearch.bookmarks"
+    namespace = "com.seosh817.kakaoimagesearch.feature.bookmarks"
 }
 
 dependencies {
 
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(projects.core.common)
+    implementation(projects.core.domain)
+    implementation(projects.core.designsystem)
 
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.paging)
     implementation(libs.androidx.paging.compose)
+    implementation(projects.core.data)
 
 
     testImplementation(libs.junit)

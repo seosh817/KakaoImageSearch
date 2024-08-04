@@ -37,4 +37,18 @@ data class UserImage(
         height = height,
         query = query
     )
+
+    companion object {
+        fun fromBookMark(bookmark: Bookmark) = UserImage(
+            collection = bookmark.collection,
+            datetime = bookmark.datetime,
+            displaySitename = bookmark.displaySiteName,
+            docUrl = bookmark.docUrl,
+            height = bookmark.height,
+            imageUrl = bookmark.imageUrl,
+            thumbnailUrl = bookmark.thumbnailUrl,
+            width = bookmark.width,
+            isBookmarked = true
+        )
+    }
 }

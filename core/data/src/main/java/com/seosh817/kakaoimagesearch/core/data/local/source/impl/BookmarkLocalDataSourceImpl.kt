@@ -1,6 +1,7 @@
 package com.seosh817.kakaoimagesearch.core.data.local.source.impl
 
 import android.util.Log
+import androidx.paging.PagingSource
 import com.seosh817.kakaoimagesearch.core.data.local.dao.BookmarkDao
 import com.seosh817.kakaoimagesearch.core.data.local.model.BookmarkEntity
 import com.seosh817.kakaoimagesearch.core.data.local.source.BookmarkLocalDataSource
@@ -15,11 +16,15 @@ class BookmarkLocalDataSourceImpl @Inject constructor(
         return bookmarkDao.getAllBookmarks()
     }
 
-    override fun getBookmarksByQuery(query: String): Flow<List<BookmarkEntity>> {
+    override fun getBookmarksByQuery(query: String): PagingSource<Int, BookmarkEntity> {
         return bookmarkDao.getBookmarksByQuery(query)
     }
 
     override suspend fun insertBookmark(bookmarkEntity: BookmarkEntity) {
+        bookmarkDao.insertBookmarkImage(bookmarkEntity)
+    }
+
+    override suspend fun deleteBookmark(urls: List<String>) {
         bookmarkDao.deleteBookmarkImage(urls)
     }
 }

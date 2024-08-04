@@ -29,6 +29,7 @@ coroutines = "1.7.3"
 coil = "2.6.0"
 android-desugar-jdk-libs = "2.0.4"
 androidx-core-splashscreen = "1.0.1"
+androidx-datastore = "1.0.0"
 kotlinx-immutable = "0.3.5"
 kotlinx-serialization-json = "1.6.3"
 retrofit = "2.11.0"
@@ -36,6 +37,8 @@ retrofit-kotlinx-serialization-json = "1.0.0"
 okhttp = "4.12.0"
 google-secrets = "2.0.1"
 room = "2.6.1"
+protobuf = "3.24.4"
+protobuf-plugin = "0.9.4"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -109,6 +112,10 @@ coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 coil-kt-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
 
+androidx-dataStore-core = { group = "androidx.datastore", name = "datastore", version.ref = "androidx-datastore" }
+protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
+protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
+
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
@@ -122,6 +129,7 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "google-secrets" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobuf-plugin" }
 
 # Plugins defined by this project
 kakaoimagesearch-android-applicatoin = { id = "kakaoimagesearch.android.application", version = "unspecified" }

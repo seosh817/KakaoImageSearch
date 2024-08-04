@@ -1,7 +1,6 @@
 package com.seosh817.kakaoimagesearch.domain.entity
 
 data class Bookmark(
-    val id: Int,
     val collection: String,
     val datetime: String,
     val displaySiteName: String,

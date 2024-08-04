@@ -1,8 +1,6 @@
 package com.seosh817.kakaoimagesearch.search
 
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,7 +31,8 @@ import com.seosh817.kakaoimagesearch.core.designsystem.theme.LocalAppDimens
 import com.seosh817.kakaoimagesearch.core.designsystem.theme.ThemePreviews
 import com.seosh817.kakaoimagesearch.core.ui.error.ConfirmErrorContents
 import com.seosh817.kakaoimagesearch.core.ui.grid_item.SearchGridItem
-import com.seosh817.kakaoimagesearch.domain.entity.SearchImage
+import com.seosh817.kakaoimagesearch.domain.entity.composite.UserImage
+import com.seosh817.kakaoimagesearch.feature.search.R
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
@@ -43,33 +42,35 @@ internal fun SearchRoute(
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
 
-    val searchPagingItems: LazyPagingItems<SearchImage> = viewModel.searchImagePagingItems.collectAsLazyPagingItems()
+    val searchPagingItems: LazyPagingItems<UserImage> = viewModel.searchImagePagingItems.collectAsLazyPagingItems()
     val query by viewModel.queryStateFlow.collectAsState("")
 
     SearchScreen(
         modifier = modifier,
         searchPagingItems = searchPagingItems,
         query = query,
+        onShowSnackbar = onShowSnackbar,
         onTextChanged = {
             viewModel.handleSearchUiEvent(SearchUiEvent.OnQueryChanged(it))
         },
         onClearIconClick = {
             viewModel.handleSearchUiEvent(SearchUiEvent.ClearSearchQuery)
         },
-        onShowSnackbar = onShowSnackbar,
-        onClickBookmark = viewModel::onClickBookmark,
+        onClickBookmark = { userImage, bookmarked ->
+            viewModel.handleSearchUiEvent(SearchUiEvent.OnBookmarkClick(userImage, bookmarked))
+        },
     )
 }
 
 @Composable
 internal fun SearchScreen(
     modifier: Modifier = Modifier,
-    searchPagingItems: LazyPagingItems<SearchImage>,
+    searchPagingItems: LazyPagingItems<UserImage>,
     query: String,
+    onShowSnackbar: suspend (String, String?, SnackbarDuration) -> Boolean,
     onTextChanged: (String) -> Unit = {},
     onClearIconClick: () -> Unit = {},
-    onShowSnackbar: suspend (String, String?, SnackbarDuration) -> Boolean,
-    onClickBookmark: (SearchImage, Boolean) -> Unit,
+    onClickBookmark: (UserImage, Boolean) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -97,8 +98,8 @@ internal fun SearchScreen(
 fun SearchLazyVerticalGrid(
     modifier: Modifier,
     query: String,
-    searchPagingItems: LazyPagingItems<SearchImage>,
-    onClickBookmark: (SearchImage, Boolean) -> Unit,
+    searchPagingItems: LazyPagingItems<UserImage>,
+    onClickBookmark: (UserImage, Boolean) -> Unit,
 ) {
 
     val lazyStaggeredGridState = rememberLazyStaggeredGridState()
@@ -154,17 +155,16 @@ fun SearchLazyVerticalGrid(
                         key = searchPagingItems.itemKey(),
                         contentType = searchPagingItems.itemContentType()
                     ) { index ->
-                        val searchImage: SearchImage? = searchPagingItems[index]
-                        if (searchImage != null) {
+                        val userImage: UserImage? = searchPagingItems[index]
+                        if (userImage != null) {
                             SearchGridItem(
                                 modifier = modifier
                                     .fillMaxSize()
                                     .clip(MaterialTheme.shapes.small)
                                     .background(MaterialTheme.colorScheme.background),
-                                searchImage = searchImage,
-                                bookmarked = false,
+                                userImage = userImage,
                                 onClickBookmark = {
-                                    onClickBookmark.invoke(searchImage, false)
+                                    onClickBookmark.invoke(userImage, userImage.isBookmarked)
                                 }
                             )
                         }
@@ -180,8 +180,7 @@ fun SearchLazyVerticalGrid(
 fun SearchScreenPreview() {
     SearchScreen(
         query = "Hello world!",
-        searchPagingItems = flowOf(PagingData.empty<SearchImage>()).collectAsLazyPagingItems(),
-        onShowSnackbar = { _, _, _ -> false },
-        onClickBookmark = { _, _ -> }
-    )
+        searchPagingItems = flowOf(PagingData.empty<UserImage>()).collectAsLazyPagingItems(),
+        onShowSnackbar = { _, _, _ -> false }
+    ) { _, _ -> }
 }

@@ -1,5 +1,6 @@
 package com.seosh817.kakaoimagesearch.core.data.local.source.impl
 
+import android.util.Log
 import com.seosh817.kakaoimagesearch.core.data.local.dao.BookmarkDao
 import com.seosh817.kakaoimagesearch.core.data.local.model.BookmarkEntity
 import com.seosh817.kakaoimagesearch.core.data.local.source.BookmarkLocalDataSource
@@ -18,11 +19,7 @@ class BookmarkLocalDataSourceImpl @Inject constructor(
         return bookmarkDao.getBookmarksByQuery(query)
     }
 
-    override suspend fun insertBookmarkImage(bookmarkEntity: BookmarkEntity) {
-        bookmarkDao.insertBookmarkImage(bookmarkEntity)
-    }
-
-    override suspend fun deleteBookmarkImage(ids: List<Int>) {
-        bookmarkDao.deleteBookmarkImage(ids)
+    override suspend fun insertBookmark(bookmarkEntity: BookmarkEntity) {
+        bookmarkDao.deleteBookmarkImage(urls)
     }
 }

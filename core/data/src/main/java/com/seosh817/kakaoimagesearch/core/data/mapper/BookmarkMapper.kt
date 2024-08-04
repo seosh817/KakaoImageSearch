@@ -4,7 +4,6 @@ import com.seosh817.kakaoimagesearch.core.data.local.model.BookmarkEntity
 import com.seosh817.kakaoimagesearch.domain.entity.Bookmark
 
 fun BookmarkEntity.asDomainEntity() = Bookmark(
-    id = id,
     collection = collection,
     datetime = datetime,
     displaySiteName = displaySiteName,
@@ -17,7 +16,6 @@ fun BookmarkEntity.asDomainEntity() = Bookmark(
 )
 
 fun Bookmark.asLocalEntity() = BookmarkEntity(
-    id = id,
     collection = collection,
     datetime = datetime,
     displaySiteName = displaySiteName,

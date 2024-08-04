@@ -1,6 +1,5 @@
 package com.seosh817.kakaoimagesearch.core.ui.grid_item
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,15 +16,15 @@ import com.seosh817.kakaoimagesearch.core.designsystem.theme.ThemePreviews
 import com.seosh817.kakaoimagesearch.core.ui.R
 import com.seosh817.kakaoimagesearch.core.ui.image.AspectImage
 import com.seosh817.kakaoimagesearch.domain.entity.SearchImage
+import com.seosh817.kakaoimagesearch.domain.entity.composite.UserImage
 
 @Composable
 fun SearchGridItem(
     modifier: Modifier = Modifier,
-    searchImage: SearchImage,
-    bookmarked: Boolean = false,
+    userImage: UserImage,
     onClickBookmark: (Boolean) -> Unit
 ) {
-    val aspectRatio = searchImage.width.toFloat() / searchImage.height.toFloat()
+    val aspectRatio = userImage.width.toFloat() / userImage.height.toFloat()
 
     Box(
         modifier = modifier
@@ -34,7 +33,7 @@ fun SearchGridItem(
     ) {
         AspectImage(
             modifier = modifier.fillMaxSize(),
-            searchImage = searchImage,
+            userImage = userImage,
             contentDescription = stringResource(id = R.string.search_grid_item_image_content_description)
         )
 
@@ -42,7 +41,7 @@ fun SearchGridItem(
             modifier = Modifier
                 .padding(LocalAppDimens.current.PaddingSmall)
                 .align(Alignment.TopEnd),
-            checked = bookmarked,
+            checked = userImage.isBookmarked,
             onCheckedClick = onClickBookmark
         )
     }
@@ -51,7 +50,7 @@ fun SearchGridItem(
 @ThemePreviews
 @Composable
 fun SearchGridItemPreview() {
-    val searchImage = SearchImage(
+    val searchImage = UserImage(
         imageUrl = "https://example.com/image.jpg",
         thumbnailUrl = "https://example.com/thumbnail.jpg",
         width = 200,
@@ -59,14 +58,14 @@ fun SearchGridItemPreview() {
         collection = "sample",
         displaySitename = "example.com",
         docUrl = "https://example.com/doc",
-        datetime = "2021-01-01T00:00:00.000+09:00"
+        datetime = "2021-01-01T00:00:00.000+09:00",
+        isBookmarked = true
     )
 
     KakaoImageSearchTheme {
         SearchGridItem(
-            searchImage = searchImage,
-            bookmarked = true,
-            onClickBookmark = { }
+            userImage = searchImage,
+            onClickBookmark = { },
         )
     }
 }

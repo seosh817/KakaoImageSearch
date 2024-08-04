@@ -9,7 +9,7 @@ interface BookmarkLocalDataSource {
 
     fun getBookmarksByQuery(query: String): Flow<List<BookmarkEntity>>
 
-    suspend fun insertBookmarkImage(bookmarkEntity: BookmarkEntity)
+    suspend fun insertBookmark(bookmarkEntity: BookmarkEntity)
 
-    suspend fun deleteBookmarkImage(ids: List<Int>)
+    suspend fun deleteBookmark(imageUrls: List<String>)
 }

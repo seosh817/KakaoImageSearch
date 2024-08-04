@@ -33,11 +33,11 @@ class BookmarkRepositoryImpl @Inject constructor(
             }
     }
 
-    override suspend fun insertBookmarkImage(bookmarkEntity: Bookmark) {
-        return bookmarkLocalDataSource.insertBookmarkImage(bookmarkEntity.asLocalEntity())
+    override suspend fun insertBookmark(bookmark: Bookmark) {
+        return bookmarkLocalDataSource.insertBookmark(bookmark.asLocalEntity())
     }
 
-    override suspend fun deleteBookmarkImage(ids: List<Int>) {
-        return bookmarkLocalDataSource.deleteBookmarkImage(ids)
+    override suspend fun deleteBookmark(urls: List<String>) {
+        return bookmarkLocalDataSource.deleteBookmark(urls)
     }
 }

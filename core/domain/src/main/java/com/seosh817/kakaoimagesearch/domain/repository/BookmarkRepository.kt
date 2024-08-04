@@ -9,7 +9,7 @@ interface BookmarkRepository {
 
     fun getBookmarksByQuery(query: String): Flow<List<Bookmark>>
 
-    suspend fun insertBookmarkImage(bookmarkEntity: Bookmark)
+    suspend fun insertBookmark(bookmark: Bookmark)
 
-    suspend fun deleteBookmarkImage(ids: List<Int>)
+    suspend fun deleteBookmark(urls: List<String>)
 }

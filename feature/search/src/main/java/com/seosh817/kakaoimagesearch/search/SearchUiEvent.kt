@@ -1,6 +1,6 @@
 package com.seosh817.kakaoimagesearch.search
 
-import com.seosh817.kakaoimagesearch.domain.entity.SearchImage
+import com.seosh817.kakaoimagesearch.domain.entity.composite.UserImage
 
 sealed interface SearchUiEvent {
 
@@ -8,5 +8,5 @@ sealed interface SearchUiEvent {
 
     data object ClearSearchQuery : SearchUiEvent
 
-    data class OnBookmarkClick(val searchImage: SearchImage, val isBookmark: Boolean) : SearchUiEvent
+    data class OnBookmarkClick(val userImage: UserImage, val isBookmark: Boolean) : SearchUiEvent
 }

@@ -37,8 +37,8 @@ interface BookmarkDao {
         """
             DELETE
             FROM bookmark_table
-            WHERE id IN (:ids)
+            WHERE image_url IN (:imageUrls)
         """
     )
-    suspend fun deleteBookmarkImage(ids: List<Int>)
+    suspend fun deleteBookmarkImage(imageUrls: List<String>)
 }

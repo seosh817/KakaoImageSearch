@@ -11,10 +11,5 @@ data class ImageSearchResponseDto (
     var searchImages : List<SearchImageDto>,
     @SerialName("meta")
     var meta : MetaDto
-) {
-    fun asEntity() = ImageSearchResponse(
-        searchImages = searchImages.map { it.asEntity() },
-        meta = meta.asEntity()
-    )
-}
+)
 

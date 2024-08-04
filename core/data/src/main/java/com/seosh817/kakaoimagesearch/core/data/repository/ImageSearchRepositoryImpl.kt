@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.seosh817.kakaoimagesearch.core.common.Dispatcher
 import com.seosh817.kakaoimagesearch.core.common.KakaoImageSearchDispatchers
+import com.seosh817.kakaoimagesearch.core.data.mapper.asDomainEntity
 import com.seosh817.kakaoimagesearch.core.data.paging.ImageSearchPagingSource
 import com.seosh817.kakaoimagesearch.core.data.remote.source.ImageSearchRemoteDataSource
 import com.seosh817.kakaoimagesearch.domain.entity.SearchImage
@@ -36,7 +37,7 @@ class ImageSearchRepositoryImpl @Inject constructor(
             .flow
             .map { pagingData ->
                 pagingData.map { imageDto ->
-                    imageDto.asEntity()
+                    imageDto.asDomainEntity()
                 }
             }
             .flowOn(dispatcher)

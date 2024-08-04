@@ -6,8 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = BookmarkEntity.TABLE_NAME)
 data class BookmarkEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey
+    @ColumnInfo(name = COLUMN_IMAGE_URL)
+    val imageUrl: String,
     @ColumnInfo(name = COLUMN_COLLECTION)
     val collection: String,
     @ColumnInfo(name = COLUMN_DATETIME)
@@ -16,8 +17,6 @@ data class BookmarkEntity(
     val displaySiteName: String,
     @ColumnInfo(name = COLUMN_DOC_URL)
     val docUrl: String,
-    @ColumnInfo(name = COLUMN_IMAGE_URL)
-    val imageUrl: String,
     @ColumnInfo(name = COLUMN_THUMBNAIL_URL)
     val thumbnailUrl: String,
     @ColumnInfo(name = COLUMN_WIDTH)

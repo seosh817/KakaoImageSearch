@@ -18,6 +18,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
@@ -37,7 +38,7 @@ class SearchViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _queryStateFlow: MutableStateFlow<String> = MutableStateFlow("")
-    val queryStateFlow: Flow<String> = _queryStateFlow.asStateFlow()
+    val queryStateFlow: StateFlow<String> = _queryStateFlow.asStateFlow()
 
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     val searchImagePagingItems: Flow<PagingData<UserImage>> = _queryStateFlow

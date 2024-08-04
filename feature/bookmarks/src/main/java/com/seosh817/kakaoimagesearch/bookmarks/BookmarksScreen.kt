@@ -1,9 +1,12 @@
 package com.seosh817.kakaoimagesearch.bookmarks
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -11,6 +14,8 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -31,6 +36,7 @@ import com.seosh817.kakaoimagesearch.core.designsystem.theme.LocalAppDimens
 import com.seosh817.kakaoimagesearch.core.designsystem.theme.ThemePreviews
 import com.seosh817.kakaoimagesearch.core.ui.error.ConfirmErrorContents
 import com.seosh817.kakaoimagesearch.core.ui.grid_item.SearchGridItem
+import com.seosh817.kakaoimagesearch.core.ui.grid_item.SelectableGridItem
 import com.seosh817.kakaoimagesearch.domain.entity.composite.UserImage
 import com.seosh817.kakaoimagesearch.feature.bookmarks.R
 import kotlinx.coroutines.flow.flowOf
@@ -38,18 +44,20 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 internal fun BookmarksRoute(
     modifier: Modifier = Modifier,
-    onShowSnackbar: suspend (String, String?, SnackbarDuration) -> Boolean,
     viewModel: BookmarksViewModel = hiltViewModel(),
 ) {
 
+    val bookmarksUiState by viewModel.bookmarksUiState.collectAsState(BookmarksUiState.NormalMode)
     val bookmarkPagingItems: LazyPagingItems<UserImage> = viewModel.bookmarkPagingItems.collectAsLazyPagingItems()
+    val selectedBookmarks by viewModel.selectedBookmarks.collectAsState(emptySet())
     val query by viewModel.queryStateFlow.collectAsState("")
 
     BookmarksScreen(
         modifier = modifier,
+        bookmarksUiState = bookmarksUiState,
         bookmarkPagingItems = bookmarkPagingItems,
         query = query,
-        onShowSnackbar = onShowSnackbar,
+        selectedBookmarks = selectedBookmarks,
         onTextChanged = {
             viewModel.handleBookmarksUiEvent(BookmarksUiEvent.OnQueryChanged(it))
         },
@@ -59,18 +67,35 @@ internal fun BookmarksRoute(
         onClickBookmark = { userImage, bookmarked ->
             viewModel.handleBookmarksUiEvent(BookmarksUiEvent.OnBookmarkClick(userImage, bookmarked))
         },
+        onClickDelete = {
+            viewModel.handleBookmarksUiEvent(BookmarksUiEvent.OnDeleteClick)
+        },
+        onClickEdit = {
+            viewModel.handleBookmarksUiEvent(BookmarksUiEvent.OnEditClick)
+        },
+        onClickCancel = {
+            viewModel.handleBookmarksUiEvent(BookmarksUiEvent.OnCancelClick)
+        },
+        onSelectedImage = {
+            viewModel.handleBookmarksUiEvent(BookmarksUiEvent.OnSelected(it))
+        }
     )
 }
 
 @Composable
 internal fun BookmarksScreen(
     modifier: Modifier = Modifier,
+    bookmarksUiState: BookmarksUiState,
     bookmarkPagingItems: LazyPagingItems<UserImage>,
     query: String,
-    onShowSnackbar: suspend (String, String?, SnackbarDuration) -> Boolean,
+    selectedBookmarks: Set<UserImage>,
     onTextChanged: (String) -> Unit = {},
     onClearIconClick: () -> Unit = {},
     onClickBookmark: (UserImage, Boolean) -> Unit,
+    onClickDelete: () -> Unit,
+    onClickEdit: () -> Unit,
+    onClickCancel: () -> Unit,
+    onSelectedImage: (UserImage) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -85,23 +110,105 @@ internal fun BookmarksScreen(
             onClickClearKeyword = onClearIconClick
         )
 
+        BookmarksContents(
+            modifier = modifier,
+            bookmarksUiState = bookmarksUiState,
+            bookmarksPagingItems = bookmarkPagingItems,
+            selectedBookmarks = selectedBookmarks,
+            onClickBookmark = onClickBookmark,
+            onClickDelete = onClickDelete,
+            onClickEdit = onClickEdit,
+            onClickCancel = onClickCancel,
+            onSelectedImage = onSelectedImage
+        )
+    }
+}
+
+@Composable
+fun BookmarksContents(
+    modifier: Modifier,
+    bookmarksUiState: BookmarksUiState,
+    bookmarksPagingItems: LazyPagingItems<UserImage>,
+    selectedBookmarks: Set<UserImage>,
+    onClickBookmark: (UserImage, Boolean) -> Unit,
+    onClickDelete: () -> Unit,
+    onClickEdit: () -> Unit,
+    onClickCancel: () -> Unit,
+    onSelectedImage: (UserImage) -> Unit
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        BookmarksEditModeButtons(
+            modifier = modifier,
+            bookmarksUiState = bookmarksUiState,
+            onClickDelete = onClickDelete,
+            onClickEdit = onClickEdit,
+            onClickCancel = onClickCancel
+        )
+
         BookmarksLazyVerticalGrid(
             modifier = modifier,
-            bookmarksPagingItems = bookmarkPagingItems,
-            onClickBookmark = onClickBookmark
+            bookmarksUiState = bookmarksUiState,
+            bookmarksPagingItems = bookmarksPagingItems,
+            selectedBookmarks = selectedBookmarks,
+            onClickBookmark = onClickBookmark,
+            onSelectImage = onSelectedImage,
         )
+    }
+}
+
+@Composable
+fun BookmarksEditModeButtons(
+    modifier: Modifier,
+    bookmarksUiState: BookmarksUiState,
+    onClickDelete: () -> Unit,
+    onClickEdit: () -> Unit,
+    onClickCancel: () -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background),
+        horizontalArrangement = Arrangement.End
+    ) {
+        if (bookmarksUiState is BookmarksUiState.EditMode) {
+            TextButton(onClick = onClickDelete) {
+                Text(
+                    text = stringResource(id = R.string.delete),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            TextButton(onClick = onClickCancel) {
+                Text(
+                    text = stringResource(id = R.string.cancel),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        } else {
+            TextButton(onClick = onClickEdit) {
+                Text(
+                    text = stringResource(id = R.string.edit),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
     }
 }
 
 @Composable
 fun BookmarksLazyVerticalGrid(
     modifier: Modifier,
+    bookmarksUiState: BookmarksUiState,
     bookmarksPagingItems: LazyPagingItems<UserImage>,
+    selectedBookmarks: Set<UserImage>,
     onClickBookmark: (UserImage, Boolean) -> Unit,
+    onSelectImage: (UserImage) -> Unit = {},
 ) {
 
     val lazyStaggeredGridState = rememberLazyStaggeredGridState()
-
 
     when (bookmarksPagingItems.loadState.refresh) {
         is LoadState.Loading -> {
@@ -156,16 +263,30 @@ fun BookmarksLazyVerticalGrid(
                     ) { index ->
                         val userImage: UserImage? = bookmarksPagingItems[index]
                         if (userImage != null) {
-                            SearchGridItem(
-                                modifier = modifier
-                                    .fillMaxSize()
-                                    .clip(MaterialTheme.shapes.small)
-                                    .background(MaterialTheme.colorScheme.background),
-                                userImage = userImage,
-                                onClickBookmark = {
-                                    onClickBookmark.invoke(userImage, userImage.isBookmarked)
-                                }
-                            )
+                            if (bookmarksUiState is BookmarksUiState.EditMode) {
+                                SelectableGridItem(
+                                    modifier = modifier
+                                        .fillMaxSize()
+                                        .clip(MaterialTheme.shapes.small)
+                                        .background(MaterialTheme.colorScheme.background),
+                                    userImage = userImage,
+                                    isSelected = selectedBookmarks.contains(userImage),
+                                    onSelected = {
+                                        onSelectImage.invoke(userImage)
+                                    }
+                                )
+                            } else {
+                                SearchGridItem(
+                                    modifier = modifier
+                                        .fillMaxSize()
+                                        .clip(MaterialTheme.shapes.small)
+                                        .background(MaterialTheme.colorScheme.background),
+                                    userImage = userImage,
+                                    onClickBookmark = {
+                                        onClickBookmark.invoke(userImage, userImage.isBookmarked)
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -179,7 +300,15 @@ fun BookmarksLazyVerticalGrid(
 fun BookmarksScreenPreview() {
     BookmarksScreen(
         query = "Hello world!",
+        bookmarksUiState = BookmarksUiState.NormalMode,
         bookmarkPagingItems = flowOf(PagingData.empty<UserImage>()).collectAsLazyPagingItems(),
-        onShowSnackbar = { _, _, _ -> false }
-    ) { _, _ -> }
+        selectedBookmarks = emptySet(),
+        onTextChanged = {},
+        onClearIconClick = {},
+        onClickBookmark = { _, _ -> },
+        onClickDelete = {},
+        onClickEdit = {},
+        onClickCancel = {},
+        onSelectedImage = {}
+    )
 }

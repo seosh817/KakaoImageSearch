@@ -9,4 +9,12 @@ sealed interface BookmarksUiEvent {
     data object ClearSearchQuery : BookmarksUiEvent
 
     data class OnBookmarkClick(val userImage: UserImage, val isBookmark: Boolean) : BookmarksUiEvent
+
+    data object OnDeleteClick : BookmarksUiEvent
+
+    data object OnEditClick : BookmarksUiEvent
+
+    data object OnCancelClick : BookmarksUiEvent
+
+    data class OnSelected(val userImage: UserImage) : BookmarksUiEvent
 }

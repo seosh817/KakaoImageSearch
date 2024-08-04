@@ -1,5 +1,6 @@
 package com.seosh817.kakaoimagesearch.bookmarks
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -15,6 +16,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -31,8 +33,14 @@ class BookmarksViewModel @Inject constructor(
     private val deleteBookmarkUseCase: DeleteBookmarkUseCase
 ) : ViewModel() {
 
+    private val _bookmarksUiState = MutableStateFlow<BookmarksUiState>(BookmarksUiState.NormalMode)
+    val bookmarksUiState: StateFlow<BookmarksUiState> = _bookmarksUiState.asStateFlow()
+
     private val _queryStateFlow: MutableStateFlow<String> = MutableStateFlow("")
-    val queryStateFlow: Flow<String> = _queryStateFlow.asStateFlow()
+    val queryStateFlow: StateFlow<String> = _queryStateFlow.asStateFlow()
+
+    private val _selectedBookmarks: MutableStateFlow<Set<UserImage>> = MutableStateFlow(emptySet())
+    val selectedBookmarks: StateFlow<Set<UserImage>> = _selectedBookmarks.asStateFlow()
 
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     val bookmarkPagingItems: Flow<PagingData<UserImage>> = _queryStateFlow
@@ -58,11 +66,25 @@ class BookmarksViewModel @Inject constructor(
             is BookmarksUiEvent.OnQueryChanged -> onQueryChanged(bookmarksUiEvent.query)
             is BookmarksUiEvent.ClearSearchQuery -> onQueryChanged("")
             is BookmarksUiEvent.OnBookmarkClick -> onClickBookmark(bookmarksUiEvent.userImage, bookmarksUiEvent.isBookmark)
+            is BookmarksUiEvent.OnDeleteClick -> onDeleteClick()
+            is BookmarksUiEvent.OnEditClick -> onEditClick()
+            is BookmarksUiEvent.OnCancelClick -> onCancelClick()
+            is BookmarksUiEvent.OnSelected -> onSelected(bookmarksUiEvent.userImage)
         }
     }
 
     private fun onQueryChanged(query: String) {
         _queryStateFlow.value = query
+    }
+
+    private fun onSelected(bookmark: UserImage) {
+        _selectedBookmarks.value = _selectedBookmarks.value.toMutableSet().apply {
+            if (contains(bookmark)) {
+                remove(bookmark)
+            } else {
+                add(bookmark)
+            }
+        }
     }
 
     private fun onClickBookmark(userImage: UserImage, isBookmarked: Boolean) = viewModelScope.launch {
@@ -79,6 +101,26 @@ class BookmarksViewModel @Inject constructor(
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun onDeleteClick() {
+        viewModelScope.launch {
+            try {
+                deleteBookmarkUseCase.invoke(_selectedBookmarks.value.map { it.imageUrl })
+                _bookmarksUiState.value = BookmarksUiState.NormalMode
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun onEditClick() {
+        _bookmarksUiState.value = BookmarksUiState.EditMode
+    }
+
+    private fun onCancelClick() {
+        _bookmarksUiState.value = BookmarksUiState.NormalMode
+        _selectedBookmarks.value = emptySet()
     }
 
     companion object {

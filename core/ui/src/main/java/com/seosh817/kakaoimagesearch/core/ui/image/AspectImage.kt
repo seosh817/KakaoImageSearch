@@ -1,6 +1,5 @@
 package com.seosh817.kakaoimagesearch.core.ui.image
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,7 +23,6 @@ fun AspectImage(
     modifier: Modifier = Modifier,
     userImage: UserImage,
     contentDescription: String? = null,
-    onClick: (() -> Unit)? = null
 ) {
     val aspectRatio = userImage.width.toFloat() / userImage.height.toFloat()
     var currentUrl by remember(userImage.imageUrl) { mutableStateOf(userImage.imageUrl) }
@@ -37,11 +35,7 @@ fun AspectImage(
     ) {
         AsyncImage(
             modifier = modifier
-                .aspectRatio(aspectRatio)
-                .clickable(
-                    enabled = onClick != null,
-                    onClick = onClick ?: {}
-                ),
+                .aspectRatio(aspectRatio),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(currentUrl)
                 .crossfade(true)

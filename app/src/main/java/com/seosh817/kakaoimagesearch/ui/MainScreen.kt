@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material3.BottomAppBarDefaults
+import androidx.compose.material3.BottomAppBarScrollBehavior
+import androidx.compose.material3.BottomAppBarState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,9 +25,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarState
-import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.rememberBottomAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,11 +54,11 @@ import kotlinx.collections.immutable.toPersistentList
 fun MainScreen(
     kakaoImageSearchNavigator: KakaoImageSearchNavigator = rememberKakaoImageSearchNavigator(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    topAppBarState: TopAppBarState = rememberTopAppBarState(),
+    bottomAppBarState: BottomAppBarState = rememberBottomAppBarState(),
 ) {
 
     val canScroll by rememberSaveable { mutableStateOf(true) }
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState, canScroll = { canScroll })
+    val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior(bottomAppBarState, canScroll = { canScroll })
 
     Scaffold(
         containerColor = Color.Transparent,
@@ -79,6 +80,7 @@ fun MainScreen(
                     scrollBehavior.state.heightOffset = 0f
                     kakaoImageSearchNavigator.navigate(it)
                 },
+                scrollBehavior = scrollBehavior,
             )
         },
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
@@ -109,7 +111,6 @@ fun MainScreen(
                             )
                         }
                     },
-                    scrollBehavior = scrollBehavior,
                 )
             }
 
@@ -130,15 +131,18 @@ fun MainScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MainBottomBar(
     currentDestination: NavDestination?,
     destinations: PersistentList<PrimaryDestination>,
     onTabSelected: (PrimaryDestination) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    scrollBehavior: BottomAppBarScrollBehavior,
 ) {
     MainNavigationBar(
-        modifier = modifier
+        modifier = modifier,
+        scrollBehavior = scrollBehavior,
     ) {
         destinations.forEach { primaryDestination ->
             MainNavigationBarItem(

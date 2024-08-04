@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.rememberBottomAppBarState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -28,13 +29,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             val kakaoImageSearchNavigator: KakaoImageSearchNavigator = rememberKakaoImageSearchNavigator()
             val snackbarHostState = remember { SnackbarHostState() }
-            val topAppBarState = rememberTopAppBarState()
+            val bottomAppBarState = rememberBottomAppBarState()
 
             KakaoImageSearchTheme {
                 MainScreen(
                     kakaoImageSearchNavigator = kakaoImageSearchNavigator,
                     snackbarHostState = snackbarHostState,
-                    topAppBarState = topAppBarState
+                    bottomAppBarState = bottomAppBarState
                 )
             }
         }
@@ -49,7 +50,7 @@ fun MainPreview() {
         MainScreen(
             kakaoImageSearchNavigator = rememberKakaoImageSearchNavigator(),
             snackbarHostState = remember { SnackbarHostState() },
-            topAppBarState = rememberTopAppBarState()
+            bottomAppBarState = rememberBottomAppBarState()
         )
     }
 }

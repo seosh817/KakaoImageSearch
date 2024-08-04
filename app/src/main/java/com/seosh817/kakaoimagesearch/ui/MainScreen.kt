@@ -35,6 +35,7 @@ import com.seosh817.kakaoimagesearch.R
 import com.seosh817.kakaoimagesearch.core.designsystem.component.MainNavigationBar
 import com.seosh817.kakaoimagesearch.core.designsystem.component.MainNavigationBarItem
 import com.seosh817.kakaoimagesearch.core.designsystem.component.MainTopAppBar
+import com.seosh817.kakaoimagesearch.domain.entity.OpenDialog
 import com.seosh817.kakaoimagesearch.navigation.KakaoImageSearchNavHost
 import com.seosh817.kakaoimagesearch.navigation.KakaoImageSearchNavigator
 import com.seosh817.kakaoimagesearch.navigation.PrimaryDestination
@@ -49,6 +50,7 @@ import kotlinx.collections.immutable.toPersistentList
 fun MainScreen(
     kakaoImageSearchNavigator: KakaoImageSearchNavigator = rememberKakaoImageSearchNavigator(),
     bottomAppBarState: BottomAppBarState = rememberBottomAppBarState(),
+    openDialog: (OpenDialog) -> Unit
 ) {
 
     val canScroll by rememberSaveable { mutableStateOf(true) }
@@ -91,6 +93,7 @@ fun MainScreen(
                     actions = {
                         IconButton(
                             onClick = {
+                                openDialog(OpenDialog.APP_THEME_SETTINGS)
                             }
                         ) {
                             Icon(

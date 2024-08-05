@@ -1,5 +1,15 @@
 # 레진코믹스 Android 개발자 기술 과제
 
+# 앱 실행 화면
+
+|  검색 화면 |  북마크 화면 |
+|---|---|
+|<img src="https://github.com/seosh817/KakaoImageSearch/blob/release/1.0.0/previews/Search.gif?raw=true" width="300">| <img src="https://github.com/seosh817/KakaoImageSearch/blob/release/1.0.0/previews/Bookmarks.gif?raw=true" width="300">|
+
+|  테마 변경 |  Localization |
+|---|---|
+|<img src="https://github.com/seosh817/KakaoImageSearch/blob/release/1.0.0/previews/ThemeMode.gif?raw=true" width="300">| <img src="https://github.com/seosh817/KakaoImageSearch/blob/release/1.0.0/previews/Localization.gif?raw=true" width="300">|
+
 # 질의 답변 사항 (README에 답변을 정리해주세요.)
 
 # Kotlin Coroutine Flow 관련

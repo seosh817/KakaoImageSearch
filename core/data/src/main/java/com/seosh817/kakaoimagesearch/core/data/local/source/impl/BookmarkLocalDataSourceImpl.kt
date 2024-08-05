@@ -24,7 +24,7 @@ class BookmarkLocalDataSourceImpl @Inject constructor(
         bookmarkDao.insertBookmarkImage(bookmarkEntity)
     }
 
-    override suspend fun deleteBookmark(urls: List<String>) {
-        bookmarkDao.deleteBookmarkImage(urls)
+    override suspend fun deleteBookmark(imageUrls: List<String>) {
+        bookmarkDao.deleteBookmarkImage(imageUrls)
     }
 }

@@ -7,12 +7,8 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.BottomAppBarDefaults
-import androidx.compose.material3.BottomAppBarScrollBehavior
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
@@ -22,11 +18,9 @@ import androidx.compose.ui.unit.dp
 import com.seosh817.kakaoimagesearch.core.designsystem.theme.KakaoImageSearchTheme
 import com.seosh817.kakaoimagesearch.core.designsystem.theme.ThemePreviews
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainNavigationBar(
     modifier: Modifier = Modifier,
-    scrollBehavior: BottomAppBarScrollBehavior,
     content: @Composable RowScope.() -> Unit,
 ) {
     BottomAppBar(
@@ -34,7 +28,6 @@ fun MainNavigationBar(
         contentColor = MaterialTheme.colorScheme.onSurface,
         tonalElevation = 0.dp,
         content = content,
-        scrollBehavior = scrollBehavior
     )
 }
 
@@ -67,7 +60,6 @@ fun RowScope.MainNavigationBarItem(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @ThemePreviews
 @Composable
 fun MainNavigationPreview() {
@@ -82,9 +74,7 @@ fun MainNavigationPreview() {
     )
 
     KakaoImageSearchTheme {
-        MainNavigationBar(
-            scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior(),
-        ) {
+        MainNavigationBar {
             items.forEachIndexed { index, item ->
                 MainNavigationBarItem(
                     icon = {

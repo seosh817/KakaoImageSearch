@@ -53,9 +53,6 @@ fun MainScreen(
     openDialog: (OpenDialog) -> Unit
 ) {
 
-    val canScroll by rememberSaveable { mutableStateOf(true) }
-    val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior(bottomAppBarState, canScroll = { canScroll })
-
     Scaffold(
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onBackground,
@@ -67,13 +64,10 @@ fun MainScreen(
                     .entries
                     .toPersistentList(),
                 onTabSelected = {
-                    scrollBehavior.state.heightOffset = 0f
                     kakaoImageSearchNavigator.navigate(it)
                 },
-                scrollBehavior = scrollBehavior,
             )
         },
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { padding ->
         Column(
             modifier = Modifier
@@ -129,11 +123,9 @@ private fun MainBottomBar(
     destinations: PersistentList<PrimaryDestination>,
     onTabSelected: (PrimaryDestination) -> Unit,
     modifier: Modifier = Modifier,
-    scrollBehavior: BottomAppBarScrollBehavior,
 ) {
     MainNavigationBar(
         modifier = modifier,
-        scrollBehavior = scrollBehavior,
     ) {
         destinations.forEach { primaryDestination ->
             MainNavigationBarItem(

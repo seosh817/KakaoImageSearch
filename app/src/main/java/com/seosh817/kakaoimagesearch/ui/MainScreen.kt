@@ -5,13 +5,13 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.BottomAppBarScrollBehavior
 import androidx.compose.material3.BottomAppBarState
@@ -91,6 +91,16 @@ fun MainScreen(
                 MainTopAppBar(
                     title = stringResource(destination.labelResId),
                     actions = {
+                        IconButton(onClick = {
+                            openDialog(OpenDialog.APP_LANGUAGE_SETTINGS)
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.Language,
+                                contentDescription = stringResource(id = R.string.top_app_bar_dark_mode_icon_description)
+                            )
+
+                        }
+
                         IconButton(
                             onClick = {
                                 openDialog(OpenDialog.APP_THEME_SETTINGS)

@@ -18,11 +18,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.seosh817.kakaoimagesearch.core.designsystem.theme.KakaoImageSearchTheme
+import com.seosh817.kakaoimagesearch.core.designsystem.theme.ThemePreviews
+import com.seosh817.kakaoimagesearch.core.ui.dialog.AppLanguageSettingsDialog
 import com.seosh817.kakaoimagesearch.core.ui.dialog.AppThemeSettingsDialog
 import com.seosh817.kakaoimagesearch.domain.entity.DarkThemeMode
 import com.seosh817.kakaoimagesearch.domain.entity.OpenDialog
 import com.seosh817.kakaoimagesearch.navigation.KakaoImageSearchNavigator
 import com.seosh817.kakaoimagesearch.navigation.rememberKakaoImageSearchNavigator
+import com.seosh817.kakaoimagesearch.util.LanguageUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -50,6 +53,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+
         splashScreen.setKeepOnScreenCondition {
             when (uiState) {
                 is MainUiState.Loading -> true
@@ -73,6 +77,21 @@ class MainActivity : ComponentActivity() {
                             AppThemeSettingsDialog(
                                 appThemeMode = (uiState as MainUiState.Success).appSettings.darkThemeMode,
                                 onThemeClick = viewModel::updateDarkThemeMode,
+                                onDismiss = {
+                                    openDialog = OpenDialog.NONE
+                                },
+                            )
+                        }
+                    }
+
+                    OpenDialog.APP_LANGUAGE_SETTINGS -> {
+                        if (uiState is MainUiState.Success) {
+                            AppLanguageSettingsDialog(
+                                appLanguage = (uiState as MainUiState.Success).appSettings.appLanguage,
+                                onLanguageClick = { appLanguage ->
+                                    LanguageUtil.setLanguage(this@MainActivity, appLanguage)
+                                    viewModel.updateAppLanguage(appLanguage)
+                                },
                                 onDismiss = {
                                     openDialog = OpenDialog.NONE
                                 },
@@ -113,6 +132,7 @@ private fun shouldUseDarkTheme(
 
 
 @OptIn(ExperimentalMaterial3Api::class)
+@ThemePreviews
 @Preview(showBackground = true)
 @Composable
 fun MainPreview() {

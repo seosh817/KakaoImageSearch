@@ -2,4 +2,5 @@
 <resources>
     <string name="search_grid_item_image_content_description">Grid Item</string>
     <string name="refresh_error">에러가 발생했습니다. 🚧</string>
+    <string name="app_theme">테마</string>
 </resources>

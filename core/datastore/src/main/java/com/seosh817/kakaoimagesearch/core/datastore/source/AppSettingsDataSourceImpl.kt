@@ -29,7 +29,7 @@ class AppSettingsDataSourceImpl @Inject constructor(
                 appLanguage = when (it.appLanguage) {
                     AppLanguageProto.APP_LANGUAGE_KOREAN -> AppLanguage.KOREAN
                     AppLanguageProto.APP_LANGUAGE_ENGLISH -> AppLanguage.ENGLISH
-                    else -> AppLanguage.ENGLISH
+                    else -> AppLanguage.DEFAULT
                 },
             )
         }
@@ -50,6 +50,7 @@ class AppSettingsDataSourceImpl @Inject constructor(
         userPreferencesDataStore.updateData {
             it.copy {
                 this.appLanguage = when (appLanguage) {
+                    AppLanguage.DEFAULT -> AppLanguageProto.APP_LANGUAGE_DEFAULT
                     AppLanguage.ENGLISH -> AppLanguageProto.APP_LANGUAGE_ENGLISH
                     AppLanguage.KOREAN -> AppLanguageProto.APP_LANGUAGE_KOREAN
                 }

@@ -102,7 +102,7 @@ internal fun BookmarksScreen(
         SearchTextField(
             modifier = modifier.fillMaxWidth(),
             value = query,
-            hint = "Enter Keyword",
+            hint = stringResource(id = R.string.enter_keyword),
             onValueChanged = onTextChanged,
             onClickClearKeyword = onClearIconClick
         )

@@ -18,6 +18,10 @@ android {
         }
     }
 
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -65,6 +69,9 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.kotlinx.immutable)
+
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.appcompat.resources)
 
     // Test
     testImplementation(libs.junit)

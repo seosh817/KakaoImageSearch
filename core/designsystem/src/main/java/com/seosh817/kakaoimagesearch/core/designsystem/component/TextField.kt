@@ -49,7 +49,7 @@ fun SearchTextFieldPreview() {
     KakaoImageSearchTheme {
         SearchTextField(
             value = "Hello world!",
-            hint = "Enter keyword",
+            hint = stringResource(id = R.string.enter_keyword),
             onValueChanged = {},
             onClickClearKeyword = {}
         )

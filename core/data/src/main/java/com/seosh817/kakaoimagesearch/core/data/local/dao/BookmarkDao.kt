@@ -27,7 +27,7 @@ interface BookmarkDao {
             FROM bookmark_table
             WHERE CASE
                 WHEN :query IS NULL OR :query = '' THEN 1
-                ELSE :query LIKE `query`
+                ELSE `query` LIKE '%' || :query || '%'
             END
         """
     )

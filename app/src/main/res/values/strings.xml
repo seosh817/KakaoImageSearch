@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">KakaoImageSearch</string>
+    <string name="app_name">카카오 이미지 검색</string>
+    <string name="search">검색</string>
+    <string name="bookmarks">북마크</string>
+    <string name="top_app_bar_dark_mode_icon_description">TopAppbar DarkMode</string>
+    <string name="top_app_bar_language_icon_description">TopAppbar Language</string>
 </resources>

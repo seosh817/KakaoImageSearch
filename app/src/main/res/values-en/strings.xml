@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">KakaoImageSearch</string>
+    <string name="search">Search</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="top_app_bar_dark_mode_icon_description">TopAppbar DarkMode</string>
+    <string name="top_app_bar_language_icon_description">TopAppbar Language</string>
+</resources>

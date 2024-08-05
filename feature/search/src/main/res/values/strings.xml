@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="refresh_error">에러가 발생했습니다.</string>
+    <string name="no_search_result">검색 결과가 없어요!</string>
+    <string name="search_empty">검색어를 입력해주세요. 😀</string>
+    <string name="enter_keyword">검색어 입력</string>
+</resources>

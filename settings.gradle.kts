@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -13,6 +14,17 @@ dependencyResolutionManagement {
     }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "KakaoImageSearch"
 include(":app")
 include(":common")
+include(":core")
+include(":core:designsystem")
+include(":feature")
+include(":feature:search")
+include(":feature:bookmarks")
+include(":core:data")
+include(":core:domain")
+include(":core:common")
+include(":core:ui")
+include(":core:datastore")

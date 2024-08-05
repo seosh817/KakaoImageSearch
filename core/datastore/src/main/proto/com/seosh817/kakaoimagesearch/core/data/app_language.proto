@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_package = "com.seosh817.kakaoimagesearch.core.datastore";
+option java_multiple_files = true;
+
+enum AppLanguageProto {
+  APP_LANGUAGE_DEFAULT = 0;
+  APP_LANGUAGE_ENGLISH = 1;
+  APP_LANGUAGE_KOREAN = 2;
+}

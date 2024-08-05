@@ -10,6 +10,52 @@
 |---|---|
 |<img src="https://github.com/seosh817/KakaoImageSearch/blob/release/1.0.0/previews/ThemeMode.gif?raw=true" width="300">| <img src="https://github.com/seosh817/KakaoImageSearch/blob/release/1.0.0/previews/Localization.gif?raw=true" width="300">|
 
+# 작성한 앱에 대해서 사용한 기술, 활용한 라이브러에 대한 설명 및 사용 사유, 발생할 수 있는 문제점 등을 README에 기록해주세요.
+
+- **Asynchronous**:
+  - **Coroutines/Flow**:
+    - Coroutines를 사용하면 좋은 이유는 RxJava와 비교했을 때 스레드를 중지하는 것이 아닌 코루틴을 일시정지/재개 시키는 것이므로 성능적인 이점이 있습니다.
+    - 또한 Coroutines를 사용하면 RxJava의 복잡한 체이닝 스타일을 사용하지 않을 수 있습니다.
+    - 개인적으로 RxJava에 익숙하기 때문에 매우 유사한 Flow를 이용하여 ViewModel에서 검색어 -> 페이징 데이터를 받아오는 부분에서 체이닝하는 방식으로 코딩하였습니다.
+- **Networking**:
+  - **Retrofit/Okhttp**:
+    - Retrofit과 Okhttp를 통합하여 사용할 수 있고, 통합하면 아래와 같은 여러 이점들이 존재합니다.
+    - Okhttp의 Interceptor를 활용하면 API의 모니터링 및 헤더 추가에 용이합니다.
+    - Retrofit을 사용하면 @Parameter, @Query, @Header 등의 어노테이션으로 API 매핑 작업을 용이하게 할 수 있습니다.
+- **Serialization**:
+  - **Kotlinx Serialization**:
+    - 직렬화 라이브러리는 kotlinx-serialization을 이용하였는데, kotlin data class에 default value를 설정할 수 있다는 점이 가장 뛰어난 장점이라고 생각합니다.
+    - 만약, 서버에서 내려온 Json의 필드 값이 null인 경우 타입 안정성을 보장받을 수 없으므로 nullable한 값으로 설정하지 않으면 앱이 죽어버리는 경우가 있을 수 있습니다. 이러한 면에서 default value를 설정할 수 있는 것이 kotlinx-serialization의 가장 좋은 장점이라고 생각합니다.
+    - 또한 retrofit2-kotlinx-serialization-converter 라이브러리를 사용하여 Retrofit과 통합하여 사용할 수 있습니다.
+- **Image loading**:
+  - **Coil**
+    - 이미지 로딩 라이브러리 중에서는 Glide가 가장 인지도가 높지만, 요즘 인기있는 Coil은 Kotlin으로 구현되어 있으며, 내부적으로 Coroutines을 사용하여 경량화되어 있다고 알고 있어서 사용해 보았습니다.
+    - 성능은 그래픽 처리에 사용되는 메모리는 비슷하나 Coroutines를 사용하기 때문에 Native code의 호출 횟수가 적다고 합니다.
+- **Dependency Injection**:
+  - **Hilt**:
+    - 의존성 주입 라이브러리는 Hilt를 사용하였는데 Annotation Proceesor를 사용하여 컴파일 타임에 코드 생성 및 의존성 주입을 하기 때문에 런타임에 주입하는 Koin과 비교하면 런타임 오류가 없으므로 안전합니다.
+    - 또한, 사용하기 까다로웠던 Dagger2를 래핑하여 안드로이드에서 사용할 수 있는 Component와 Scope를 정의해두었기 때문에 보일러 플레이트 코드가 적고, 사용하기 쉽기 때문에 자주 사용하는 편입니다.
+- **Database**:
+  - **Room**:
+    - SQLite 데이터베이스의 ORM 버전의 라이브러리 입니다.
+    - 컴파일 타임에 쿼리 검사를 할 수 있어 런타임 에러를 줄일 수 있고, 어노테이션을 활용하여 보일러 플레이트를 줄일 수 있습니다.
+    - Coroutines 및 Flow와 통합하여 바로 사용할 수 있으므로 데이터 베이스의 변경을 관찰할 수 있으며, Paging3와 통합하여 PagingSource를 받을 수 있습니다.
+  - **DataStore/Protobuf**:
+    - Datastore는 Coroutines와 Flow를 기반으로 하였으므로 데이터의 변경을 관찰할 수 있습니다.
+    - 비동기적이고 일관된 트랜잭션 방식으로 데이터를 저장하여 SharedPreferences의 단점을 극복할 수 있습니다.
+    - 또한, 작업은 내부적으로 Dispatchers.IO 스레드에서 동작하기 때문에 안전합니다.
+    - Datastore의 단점 중 하나는 스키마를 할 수 없고, 올바른 타입으로 키에 액세스할 방법이 없습니다.
+    - 하지만, Protocol buffer를 사용하면 스키마를 정의하는 방식으로 문제를 해결할 수 있습니다. proto에 저장된 타입을 인식하고 제공하기 때문에 키를 사용할 필요가 없게 됩니다.
+  - **Gradle**:
+    - **Version Catalog**:
+      - Version Catalog를 사용하면 하나의 파일로 여러 프로젝트 혹은 모듈에서 라이브러리 및 버전을 사용할 수 있게됩니다.
+    - **Gradle Convention Plugins**:
+      - Gradle Convention Plugins을 사용하면 여러 프로젝트 혹은 모듈에서 공통된 빌드 구성을 사용할 수 있습니다.
+- **Continuous Integration**:
+  - **GitHub Actions**
+    - 깃허브에서 제공하는 CI 툴이므로 사용하기 쉽고 짜놓은 script도 존재하기 때문에 사용하였습니다.
+
+
 # 질의 답변 사항 (README에 답변을 정리해주세요.)
 
 # Kotlin Coroutine Flow 관련

@@ -25,7 +25,7 @@ import com.seosh817.kakaoimagesearch.domain.entity.DarkThemeMode
 import com.seosh817.kakaoimagesearch.domain.entity.OpenDialog
 import com.seosh817.kakaoimagesearch.navigation.KakaoImageSearchNavigator
 import com.seosh817.kakaoimagesearch.navigation.rememberKakaoImageSearchNavigator
-import com.seosh817.kakaoimagesearch.util.LanguageUtil
+import com.seosh817.kakaoimagesearch.util.LocalizationUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -89,7 +89,7 @@ class MainActivity : ComponentActivity() {
                             AppLanguageSettingsDialog(
                                 appLanguage = (uiState as MainUiState.Success).appSettings.appLanguage,
                                 onLanguageClick = { appLanguage ->
-                                    LanguageUtil.setLanguage(this@MainActivity, appLanguage)
+                                    LocalizationUtil.setLanguage(this@MainActivity, appLanguage)
                                     viewModel.updateAppLanguage(appLanguage)
                                 },
                                 onDismiss = {
